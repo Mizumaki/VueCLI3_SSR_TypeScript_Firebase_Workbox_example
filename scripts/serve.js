@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const isWindows = /^win/.test(process.platform);
 
 const npx = isWindows ? 'npx.cmd' : 'npx';
