@@ -1,12 +1,28 @@
+import Vue from 'vue';
 import { createApp } from './app';
 
-const { app } = createApp();
-// const { app, router, store } = createApp();
+// propsが変化しただけの際も、asyncDataを呼ぶ
+// https://ssr.vuejs.org/ja/guide/data.html#クライアントサイドのデータ取得
+Vue.mixin({
+  beforeRouteUpdate(to, from, next) {
+    const { asyncData } = (this as any).$options
+    if (asyncData) {
+      asyncData({
+        store: (this as any).$store,
+        route: to
+      }).then(next).catch(next)
+    } else {
+      next()
+    }
+  }
+})
 
-app.$mount('#app');
+const { app, router, store } = createApp();
 
-/* http://bit.ly/2SSzXuF
+interface IWindow { __INITIAL_STATE__: any; }
+declare var window: IWindow;
 
+// SSRによりstoreが更新された際に、それがクライアント側にも反映されるようにする
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
@@ -25,25 +41,25 @@ router.onReady(() => {
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
     })
+    const asyncDataHooks = activated.map((c: any) => c.asyncData).filter(_ => _);
 
-    if (!activated.length) {
-      return next()
+    if (!asyncDataHooks.length) {
+      return next();
     }
 
     // もしローディングインジケーターがあるならば、
     // この箇所がローディングインジケーターを発火させるべき箇所です
 
-    Promise.all(activated.map(c => {
+    Promise.all(asyncDataHooks.map(c => {
       if (c.asyncData) {
-        return c.asyncData({ store, route: to })
+        return c.asyncData({ store, route: to });
       }
     })).then(() => {
 
       // ローディングインジケーターを停止させます
 
-      next()
+      next();
     }).catch(next)
   })
   app.$mount('#app')
-})
-*/
+});

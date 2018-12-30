@@ -14,13 +14,13 @@ export const createApp = () => {
   // ルートの状態をストアの一部として利用できるよう同期
   sync(store, router);
 
+  // ここで router と store を挿入することで
+  // `this.$router` と `this.$store` が使えるようになる
   const app = new Vue({
     router,
     store,
     render: (h) => h(App),
   });
-  // マウントする処理(`.$mount`)は削除
 
   return { app, router, store };
 };
-
