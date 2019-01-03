@@ -4,6 +4,7 @@ node_modules/
 # production
 dist/
 functions/lib/
+.firebase/
 
 # misc
 .DS_Store
