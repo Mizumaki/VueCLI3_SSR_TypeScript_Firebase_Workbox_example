@@ -7,17 +7,13 @@
     ]
   },
   "hosting": {
-    "public": "functions/dist/app",
+    "public": "public/img",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
     "rewrites": [
-      {
-        "source": "/ssr",
-        "function": "ssr"
-      },
       {
         "source": "**",
         "function": "ssr"

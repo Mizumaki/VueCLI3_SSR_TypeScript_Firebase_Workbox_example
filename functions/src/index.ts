@@ -1,9 +1,6 @@
 import * as functions from 'firebase-functions';
-import { app as ssrServer } from './ssr';
+import { app } from './ssr';
 
-const ssr = functions.https.onRequest((req, res) => {
-  console.log("in ssr");
-  return ssrServer;
-});
+const ssr = functions.https.onRequest(app);
 
 export { ssr };

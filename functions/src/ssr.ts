@@ -2,16 +2,22 @@ import * as fs from 'fs';
 import express from 'express';
 import compression from 'compression';
 import path from 'path';
+// import favicon from 'serve-favicon';
 import { createBundleRenderer } from 'vue-server-renderer';
 const serverBundle = require('./app/vue-ssr-server-bundle.json');
 const clientManifest = require('./app/vue-ssr-client-manifest.json');
 
+// path.resolveは大事
+// https://koukitips.net/post1825/
 const resolve = file => path.resolve(__dirname, file);
 const templatePath = resolve('./index.template.html');
 
 const app = express();
 
 const createRenderer = (bundle, options) => {
+  console.log("");
+  console.log("In createRenderer");
+  console.log("");
   return createBundleRenderer(bundle, Object.assign(options, {
     //
     // other component caching is here
@@ -20,23 +26,36 @@ const createRenderer = (bundle, options) => {
   }))
 }
 
-let renderer;
-
 const template = fs.readFileSync(templatePath, 'utf-8');
-renderer = createRenderer(serverBundle, { template, clientManifest })
+const renderer = createRenderer(serverBundle, { template, clientManifest })
 
 /*
+キャッシュを含めることも可能
 const serve = (path, cache) => express.static(resolve(path), {
-  maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
+  maxAge: cache ? 1000 * 60 * 60 * 24 * 30 : 0
 })
 */
 
+const serve = (filePath) => express.static(resolve(filePath));
+
 app.use(compression({ threshold: 0 }));
-app.use('/dist', express.static(resolve('./dist')));
-// app.use('/public', express.static(resolve('./public')));
+app.use('/favicon.ico', serve('./app/favicon.ico'));
+app.use('/dist', serve('./app'));
+app.use('/public', serve('../../public'));
+app.use('/manifest.json', serve('./app/manifest.json'));
+app.use('/service-worker.js', serve('./app/service-worker.js'));
+app.use('/js', serve('./app/js'));
+app.use('/css', serve('./app/css'));
+
+/*
+microcacheを利用する場合
+app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
+*/
 
 const render = (req, res) => {
-
+  console.log("");
+  console.log('in render');
+  console.log("");
   res.setHeader("Content-Type", "text/html");
 
   const handleError = (err) => {
@@ -55,6 +74,9 @@ const render = (req, res) => {
   const context = { url: req.url }
 
   renderer.renderToString(context, (err, html) => {
+    console.log("");
+    console.log("in renderer.renderToString");
+    console.log("");
     if (err) {
       return handleError(err);
     }
