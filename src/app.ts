@@ -3,7 +3,7 @@ import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import { createRouter } from './router/index';
 import { createStore } from './store/index';
-import './registerServiceWorker';
+// import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 

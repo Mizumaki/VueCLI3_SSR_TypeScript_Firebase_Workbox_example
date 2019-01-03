@@ -1,16 +1,27 @@
 {
   "functions": {
+    "source": "functions",
     "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint",
-      "npm --prefix \"$RESOURCE_DIR\" run build"
+      "npm --prefix functions run lint",
+      "npm --prefix functions run build"
     ]
   },
   "hosting": {
-    "public": "public",
+    "public": "functions/dist/app",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/ssr",
+        "function": "ssr"
+      },
+      {
+        "source": "**",
+        "function": "ssr"
+      }
     ]
   }
 }

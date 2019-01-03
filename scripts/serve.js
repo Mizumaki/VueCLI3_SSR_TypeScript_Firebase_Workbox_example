@@ -5,7 +5,7 @@ const npm = isWindows ? 'npm.cmd' : 'npm';
 
 const { spawn } = require('child_process');
 const serve = spawn(npx, ['vue-cli-service', 'serve']);
-const start = spawn(npm, ['run', 'start']);
+const start = spawn(npm, ['run', 'serve:server']);
 
 const log = console.log
 const errAndExit = (err) => {

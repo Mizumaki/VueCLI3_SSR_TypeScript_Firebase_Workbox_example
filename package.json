@@ -2,13 +2,22 @@
   "name": "vue-cli-ssr-example",
   "version": "0.1.0",
   "private": true,
+  "config": {
+    "functionsDist": "functions/dist",
+    "hostingDist" : "functions/dist/app"
+  },
   "scripts": {
-    "serve": "npm run serve:client && npm run start",
+    "build": "npm run build:server -- --silent && npm run build:client -- --no-clean --silent && npm run build:functions",
+    "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build --dest $npm_package_config_hostingDist",
+    "build:client": "vue-cli-service build --dest $npm_package_config_hostingDist",
+    "build:functions": "./functions/node_modules/.bin/tsc --project ./functions --outDir $npm_package_config_functionsDist && npm run duplicateTemplate",
+    "duplicateTemplate": "cp ./src/index.template.html $npm_package_config_functionsDist/index.template.html",
+    "deploy": "npm run deploy:hosting && npm run deploy:functions",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "serve": "npm run serve:client && npm run serve:server",
     "serve:client": "vue-cli-service serve",
-    "build": "npm run build:server -- --silent && npm run build:client -- --no-clean --silent",
-    "build:client": "vue-cli-service build",
-    "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build",
-    "start": "node scripts/start",
+    "serve:server": "node scripts/start",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
