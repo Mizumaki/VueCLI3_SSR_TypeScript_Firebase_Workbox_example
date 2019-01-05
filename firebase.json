@@ -1,10 +1,6 @@
 {
   "functions": {
-    "source": "functions",
-    "predeploy": [
-      "npm --prefix functions run lint",
-      "npm --prefix functions run build"
-    ]
+    "source": "functions"
   },
   "hosting": {
     "public": "public/img",

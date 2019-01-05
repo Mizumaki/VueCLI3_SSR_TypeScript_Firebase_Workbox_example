@@ -4,9 +4,10 @@
   "private": true,
   "config": {
     "functionsDist": "functions/dist",
-    "hostingDist" : "functions/dist/app"
+    "hostingDist": "functions/dist/app"
   },
   "scripts": {
+    "dev": "vue-cli-service serve",
     "build": "npm run build:server -- --silent && npm run build:client -- --no-clean --silent && npm run build:functions",
     "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build --dest $npm_package_config_hostingDist",
     "build:client": "vue-cli-service build --dest $npm_package_config_hostingDist",
@@ -15,13 +16,17 @@
     "deploy": "npm run deploy:hosting && npm run deploy:functions",
     "deploy:hosting": "firebase deploy --only hosting",
     "deploy:functions": "firebase deploy --only functions",
-    "serve": "npm run serve:client && npm run serve:server",
-    "serve:client": "vue-cli-service serve",
-    "serve:server": "node scripts/start",
+    "serve:pro": "npm-run-all --parallel serve:pro:client serve:pro:server",
+    "serve:pro:client": "vue-cli-service serve --port 8081 --mode production",
+    "serve:pro:server": "cross-env NODE_ENV=production node scripts/start",
+    "serve:dev": "npm-run-all --parallel serve:dev:client serve:dev:server",
+    "serve:dev:client": "vue-cli-service serve --port 8081 --mode development",
+    "serve:dev:server": "cross-env NODE_ENV=development node scripts/start",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "cross-env": "^5.2.0",
+    "http-proxy-middleware": "^0.19.1",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
@@ -39,6 +44,7 @@
     "@vue/cli-service": "^3.2.0",
     "lint-staged": "^7.2.2",
     "node-sass": "^4.9.0",
+    "npm-run-all": "^4.1.5",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"

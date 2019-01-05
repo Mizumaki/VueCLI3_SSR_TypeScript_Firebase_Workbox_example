@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "dom"],
+    "lib": ["es2015", "es2017", "dom"],
     "module": "commonjs",
     "noImplicitReturns": true,
     "sourceMap": true,

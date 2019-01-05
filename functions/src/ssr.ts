@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import express from 'express';
 import compression from 'compression';
-import path from 'path';
+import * as path from 'path';
 // import favicon from 'serve-favicon';
 import { createBundleRenderer } from 'vue-server-renderer';
 const serverBundle = require('./app/vue-ssr-server-bundle.json');
@@ -76,7 +76,7 @@ const render = (req, res) => {
   renderer.renderToString(context, (err, html) => {
     console.log("");
     console.log("in renderer.renderToString");
-    console.log("");
+    console.log(`url is ${context.url}`);
     if (err) {
       return handleError(err);
     }
