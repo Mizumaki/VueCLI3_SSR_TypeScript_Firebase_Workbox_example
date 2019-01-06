@@ -39,7 +39,6 @@ const serve = (path, cache) => express.static(resolve(path), {
 const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
-// TODO: serve-faviconを使う
 app.use('/favicon.ico', favicon(resolve('./app/favicon.ico')));
 app.use('/service-worker.js', serve('./app/service-worker.js'));
 app.use('/js', serve('./app/js'));
