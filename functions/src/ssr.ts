@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import express from 'express';
 import compression from 'compression';
 import path from 'path';
-// import favicon from 'serve-favicon';
+import favicon from 'serve-favicon';
 import { createBundleRenderer } from 'vue-server-renderer';
 const serverBundle = require('./app/vue-ssr-server-bundle.json');
 const clientManifest = require('./app/vue-ssr-client-manifest.json');
@@ -40,7 +40,7 @@ const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
 // TODO: serve-faviconを使う
-app.use('/favicon.ico', serve('./app/favicon.ico'));
+app.use('/favicon.ico', favicon(resolve('./app/favicon.ico')));
 app.use('/service-worker.js', serve('./app/service-worker.js'));
 app.use('/js', serve('./app/js'));
 app.use('/css', serve('./app/css'));
