@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import express from 'express';
 import compression from 'compression';
-import * as path from 'path';
+import path from 'path';
 // import favicon from 'serve-favicon';
 import { createBundleRenderer } from 'vue-server-renderer';
 const serverBundle = require('./app/vue-ssr-server-bundle.json');
@@ -40,12 +40,16 @@ const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
 app.use('/favicon.ico', serve('./app/favicon.ico'));
-app.use('/dist', serve('./app'));
-app.use('/public', serve('../../public'));
+// app.use('/dist', serve('./app'));
+// app.use('/public', serve('../../public'));
 app.use('/manifest.json', serve('./app/manifest.json'));
 app.use('/service-worker.js', serve('./app/service-worker.js'));
 app.use('/js', serve('./app/js'));
 app.use('/css', serve('./app/css'));
+app.use('/img', serve('./app/img'));
+app.get('/precache-manifest*', (req, res) => {
+  res.send(`./app/${req.url}`);
+})
 
 /*
 microcacheを利用する場合
@@ -74,9 +78,10 @@ const render = (req, res) => {
   const context = { url: req.url }
 
   renderer.renderToString(context, (err, html) => {
-    console.log("");
+    console.log("new");
     console.log("in renderer.renderToString");
     console.log(`url is ${context.url}`);
+    console.log("");
     if (err) {
       return handleError(err);
     }

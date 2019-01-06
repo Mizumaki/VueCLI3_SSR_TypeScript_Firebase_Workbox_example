@@ -3,8 +3,10 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "public/img",
+    "public": "public",
     "ignore": [
+      "index.html",
+      "img/",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"

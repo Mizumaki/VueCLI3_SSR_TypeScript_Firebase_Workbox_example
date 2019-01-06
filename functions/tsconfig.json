@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["es2015", "es2017", "dom"],
+    "lib": ["es5", "es6", "dom", "dom.iterable", "scripthost"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "noImplicitReturns": true,
     "sourceMap": true,
     "target": "es6",

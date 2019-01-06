@@ -25,17 +25,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "http-proxy-middleware": "^0.19.1",
-    "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vue-server-renderer": "^2.5.21",
-    "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0",
-    "webpack-node-externals": "^1.7.2"
+    "vuex": "^3.0.1",
+    "register-service-worker": "^1.5.2",
+    "vue-server-renderer": "^2.5.21",
+    "webpack-node-externals": "^1.7.2",
+    "http-proxy-middleware": "^0.19.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
@@ -44,10 +43,11 @@
     "@vue/cli-service": "^3.2.0",
     "lint-staged": "^7.2.2",
     "node-sass": "^4.9.0",
-    "npm-run-all": "^4.1.5",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "npm-run-all": "^4.1.5",
+    "cross-env": "^5.2.0"
   },
   "lint-staged": {
     "*.ts": [
