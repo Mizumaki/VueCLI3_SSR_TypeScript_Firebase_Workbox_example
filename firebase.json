@@ -6,6 +6,7 @@
     "public": "public",
     "ignore": [
       "index.html",
+      "favicon.ico",
       "img/",
       "firebase.json",
       "**/.*",

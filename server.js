@@ -79,9 +79,9 @@ const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
 app.use('/favicon.ico', serve('./functions/dist/app/favicon.ico'));
-app.use('/dist', serve('./functions/dist/app/'));
+// app.use('/dist', serve('./functions/dist/app/'));
 app.use('/img', serve('./functions/dist/app/img'));
-app.use('/public', serve('./public'));
+// app.use('/public', serve('./public'));
 // app.use('/service-worker.js', serve('./functions/dist/app/service-worker.js'));
 app.use('/js', serve('./functions/dist/app/js'));
 app.use('/css', serve('./functions/dist/app/css'));
