@@ -3,11 +3,9 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "public",
+    "public": "functions/dist/app",
     "ignore": [
       "index.html",
-      "favicon.ico",
-      "img/",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"

@@ -1,7 +1,7 @@
-// 自動で挿入してくれるみたいなので、以下のimportは不要
+// pwa プラグインが自動で挿入するようだ
 // importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
-https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.core#.setCacheNameDetails
+// https://developers.google.com/web/tools/workbox/guides/configure-workbox#configure_cache_names
 workbox.core.setCacheNameDetails({ prefix: "vue-cli-ssr-example" });
 
 if (workbox) {

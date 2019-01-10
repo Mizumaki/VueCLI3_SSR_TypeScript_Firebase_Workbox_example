@@ -11,7 +11,7 @@ const devServerBaseURL = process.env.DEV_SERVER_BASE_URL || 'http://localhost';
 const devServerPort = process.env.DEV_SERVER_PORT || 8081;
 
 const resolve = file => path.resolve(__dirname, file);
-const templatePath = resolve('./functions/dist/index.template.html');
+const templatePath = resolve('./functions/dist/app/index.html');
 
 // TODO: devの場合における別ページへの遷移が上手くいかない。
 const isProd = process.env.NODE_ENV === 'production';
@@ -79,16 +79,14 @@ const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
 app.use('/favicon.ico', serve('./functions/dist/app/favicon.ico'));
-// app.use('/dist', serve('./functions/dist/app/'));
 app.use('/img', serve('./functions/dist/app/img'));
-// app.use('/public', serve('./public'));
-// app.use('/service-worker.js', serve('./functions/dist/app/service-worker.js'));
 app.use('/js', serve('./functions/dist/app/js'));
 app.use('/css', serve('./functions/dist/app/css'));
 app.get('/precache-manifest*', (req, res) => {
   res.send(`./functions/dist/app/${req.url}`);
 });
 app.use('/manifest.json', serve('./functions/dist/app/manifest.json'));
+// sw.jsについては書かない。キャッシュすると面倒なため
 
 
 const render = (req, res) => {

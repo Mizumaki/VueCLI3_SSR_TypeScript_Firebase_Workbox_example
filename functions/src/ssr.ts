@@ -9,7 +9,7 @@ const clientManifest = require('./app/vue-ssr-client-manifest.json');
 // path.resolveは大事
 // https://koukitips.net/post1825/
 const resolve = file => path.resolve(__dirname, file);
-const templatePath = resolve('./index.template.html');
+const templatePath = resolve('./app/index.html');
 
 const app = express();
 
@@ -38,14 +38,13 @@ const serve = (path, cache) => express.static(resolve(path), {
 const serve = (filePath) => express.static(resolve(filePath));
 
 app.use(compression({ threshold: 0 }));
-app.use('/favicon.ico', serve('./app/favicon.ico'));
-app.use('/service-worker.js', serve('./app/service-worker.js'));
-app.use('/js', serve('./app/js'));
-app.use('/css', serve('./app/css'));
-app.use('/img', serve('./app/img'));
-app.get('/precache-manifest*', (req, res) => {
-  res.send(`./app/${req.url}`);
-})
+// app.use('/favicon.ico', serve('./app/favicon.ico'));
+// app.use('/js', serve('./app/js'));
+// app.use('/css', serve('./app/css'));
+// app.use('/img', serve('./app/img'));
+// app.get('/precache-manifest*', (req, res) => {
+//   res.send(`./app/${req.url}`);
+// })
 
 /*
 microcacheを利用する場合
@@ -71,7 +70,13 @@ const render = (req, res) => {
     }
   }
 
-  const context = { url: req.url }
+  let context = { url: req.url }
+
+  // firebase hosting が、'/'へのアクセスを'/index.html'として送ってきたことがあったため
+  if (context.url === '/index.html') {
+    console.log('in if');
+    context.url = '/';
+  }
 
   renderer.renderToString(context, (err, html) => {
     console.log("new");
