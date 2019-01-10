@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import statham from './modules/statham';
 
 Vue.use(Vuex);
 
@@ -7,14 +8,8 @@ Vue.use(Vuex);
 
 export const createStore = () => {
   return new Vuex.Store({
-    state: {
-  
-    },
-    mutations: {
-  
-    },
-    actions: {
-  
-    },
+    modules: {
+      statham,
+    }
   });
 }

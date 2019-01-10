@@ -5,13 +5,13 @@ const isDev = process.env.NODE_ENV !== 'production';
 export default (context: any) => {
   return new Promise((resolve, reject) => {
     let s: number;
-    if (isDev) {
+    if (isDev) {  
       s = Date.now();
     }
     const { app, router, store } = createApp();
 
     // ルーターに現在のurlをセット
-    router.push(context.url)
+    router.push(context.url);
 
     // コンポーネントに asyncData メソッドがあった場合に、解決を待つ
     // https://ssr.vuejs.org/ja/guide/data.html#ロジックとコンポーネントとの結び付き

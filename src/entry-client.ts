@@ -1,5 +1,13 @@
 import Vue from 'vue';
 import { createApp } from './app';
+import ProgressBar from './components/ProgressBar.vue';
+
+// global progress bar
+const bar: any = Vue.prototype.$bar = new Vue(ProgressBar).$mount();
+document.body.appendChild(bar.$el);
+
+// $mountについて　https://v1-jp.vuejs.org/api/#vm-mount
+// $elについて　https://jp.vuejs.org/v2/api/index.html#vm-el
 
 // propsが変化しただけの際も、asyncDataを呼ぶ
 // https://ssr.vuejs.org/ja/guide/data.html#クライアントサイドのデータ取得
@@ -19,7 +27,7 @@ Vue.mixin({
 
 const { app, router, store } = createApp();
 
-interface IWindow { __INITIAL_STATE__: any; }
+interface IWindow { __INITIAL_STATE__: any; addEventListener: any; }
 declare var window: IWindow;
 
 // SSRによりstoreが更新された際に、それがクライアント側にも反映されるようにする
@@ -47,19 +55,26 @@ router.onReady(() => {
       return next();
     }
 
-    // もしローディングインジケーターがあるならば、
-    // この箇所がローディングインジケーターを発火させるべき箇所です
-
+    // ここでローディングインジケーターを開始
+    bar.start();
     Promise.all(asyncDataHooks.map(c => {
       if (c.asyncData) {
         return c.asyncData({ store, route: to });
       }
     })).then(() => {
-
       // ローディングインジケーターを停止させます
-
+      bar.finish();
       next();
     }).catch(next)
   })
   app.$mount('#app')
 });
+
+// service worker
+if ('https:' === location.protocol) {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+}

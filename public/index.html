@@ -13,13 +13,6 @@
     <strong>We're sorry but stathaming doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
   </noscript>
   <!--vue-ssr-outlet-->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
-      });
-    }
-  </script>
 </body>
 
 </html>
