@@ -1,27 +1,27 @@
+import stathamApi from '../../api/statham';
+
 // initial state
-const state = {}
+const state = {
+  movies: [],
+}
 
 // getters
 const getters = {}
 
 // actions
 const actions = {
-  getAllProducts({ commit }) {
-    shop.getProducts(products => {
-      commit('setProducts', products)
-    })
+  getMovies({ commit }: any) {
+    return stathamApi.fetchMovies()
+      .then((movies: any) => {
+        commit('setMovieList', movies);
+      });
   }
 }
 
 // mutations
 const mutations = {
-  setProducts(state, products) {
-    state.all = products
-  },
-
-  decrementProductInventory(state, { id }) {
-    const product = state.all.find(product => product.id === id)
-    product.inventory--
+  setMovieList(state: any, movies: any) {
+    state.movies = movies;
   }
 }
 

@@ -22,6 +22,11 @@ export const createRouter = () => {
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
       },
+      {
+        path: '/statham',
+        name: 'statham',
+        component: () => import(/* webpackChunkName: "statham" */ '../views/Statham.vue'),
+      }
     ],
   });
 }

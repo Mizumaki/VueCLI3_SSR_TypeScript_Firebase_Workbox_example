@@ -9,7 +9,9 @@ Vue.use(Vuex);
 export const createStore = () => {
   return new Vuex.Store({
     modules: {
-      statham,
+      statham: statham
+      // これで、"statham"という名前空間に `statham` モジュールが登録された
+      // https://vuex.vuejs.org/ja/guide/modules.html#名前空間
     }
   });
 }

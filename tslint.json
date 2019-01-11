@@ -10,6 +10,11 @@
   },
   "rules": {
     "indent": [true,"spaces",2],
+    "quotemark": false,
+    "semicolon": false,
+    "arrow-parens": false,
+    "space-before-function-paren": false,
+    "eofline": false,
     "trailing-comma": false,
     "interface-name": false,
     "ordered-imports": false,
