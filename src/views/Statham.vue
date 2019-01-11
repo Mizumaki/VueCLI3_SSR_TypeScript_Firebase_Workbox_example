@@ -1,5 +1,11 @@
 <template>
-  <div>{{ movies }}</div>
+  <ul>
+    <li
+      v-for="movie in movies"
+      :key="movie.index">
+      {{ movie.year }} - {{ movie.title }}
+    </li>
+  </ul>
 </template>
 
 <script>

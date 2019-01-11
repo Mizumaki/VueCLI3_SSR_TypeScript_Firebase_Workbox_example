@@ -3,12 +3,8 @@ const path = require('path');
 const express = require('express');
 const compression = require('compression')
 const { createBundleRenderer } = require('vue-server-renderer');
-var proxy = require('http-proxy-middleware');
 const serverBundle = require('./functions/dist/app/vue-ssr-server-bundle.json');
 const clientManifest = require('./functions/dist/app/vue-ssr-client-manifest.json');
-
-const devServerBaseURL = process.env.DEV_SERVER_BASE_URL || 'http://localhost';
-const devServerPort = process.env.DEV_SERVER_PORT || 8081;
 
 const resolve = file => path.resolve(__dirname, file);
 
@@ -33,42 +29,6 @@ const createRenderer = (bundle, options) => {
 
 const template = fs.readFileSync(templatePath, 'utf-8');
 const renderer = createRenderer(serverBundle, { template, clientManifest });
-
-if (!isProd) {
-  app.use('/js/main*', proxy({
-    target: `${devServerBaseURL}:${devServerPort}`,
-    changeOrigin: true,
-    pathRewrite: function (path) {
-      return path.includes('main')
-        ? '/main.js'
-        : path
-    },
-    prependPath: false
-  }));
-
-  app.use('/js/about*', proxy({
-    target: `${devServerBaseURL}:${devServerPort}`,
-    changeOrigin: true,
-    pathRewrite: function (path) {
-      return path.includes('about')
-        ? '/about.js'
-        : path
-    },
-    prependPath: false
-  }));
-
-  app.use('/*hot-update*', proxy({
-    target: `${devServerBaseURL}:${devServerPort}`,
-    changeOrigin: true,
-  }));
-
-
-  app.use('/sockjs-node', proxy({
-    target: `${devServerBaseURL}:${devServerPort}`,
-    changeOrigin: true,
-    ws: true
-  }));
-}
 
 /*
 const serve = (path, cache) => express.static(resolve(path), {

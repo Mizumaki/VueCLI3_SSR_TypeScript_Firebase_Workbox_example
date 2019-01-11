@@ -41,15 +41,15 @@ router.onReady(() => {
   // そうすれば（訳注: サーバーサイドで取得したために）既に持っているデータを冗長に取得しなくて済みます
   // すべての非同期なコンポーネントが解決されるように router.beforeResolve() を使います
   router.beforeResolve((to, from, next) => {
-    const matched = router.getMatchedComponents(to)
-    const prevMatched = router.getMatchedComponents(from)
+    const matched = router.getMatchedComponents(to);
+    const prevMatched = router.getMatchedComponents(from);
 
     // まだ描画されていないコンポーネントにのみ関心を払うため、　＝＞　
     // 2つの一致したリストに差分が表れるまで、コンポーネントを比較します
-    let diffed = false
+    let diffed = false;
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
-    })
+    });
 
     if (!activated.length) {
       return next();
@@ -61,6 +61,7 @@ router.onReady(() => {
 
     // ここでローディングインジケーターを開始
     bar.start();
+
     Promise.all(activated.map((c: any) => {
       if (c.asyncData) {
         return c.asyncData({ store, route: to });
