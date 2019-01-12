@@ -6,7 +6,8 @@ const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plug
 // これで、サーバー用かクライアント用かを判断する。
 // このbooleanを二項演算子に突っ込むことで、1つの設定ファイルで
 // webpack.client.js と webpack.server.js の2つを書くことを実現
-const isServer = process.env.WEBPACK_TARGET === 'node' ? true : false;
+const isServer = process.env.WEBPACK_TARGET === 'node';
+// const isDev = process.env.MODE === 'dev';
 
 // ????
 const createApiFile = isServer ? './create-api-server.js' : './create-api-client.js';

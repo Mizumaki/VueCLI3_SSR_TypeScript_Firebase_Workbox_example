@@ -17,7 +17,7 @@
     "deploy:functions": "firebase deploy --only functions",
     "serve:pro": "cross-env NODE_ENV=production node scripts/start",
     "serve:dev": "npm-run-all --parallel --race serve:dev:client serve:dev:server",
-    "serve:dev:client": "vue-cli-service serve --port 8081 --mode development",
+    "serve:dev:client": "cross-env vue-cli-service serve --port 8081",
     "serve:dev:server": "cross-env NODE_ENV=development node scripts/start",
     "lint": "vue-cli-service lint"
   },
