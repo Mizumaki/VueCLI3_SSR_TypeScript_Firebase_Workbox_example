@@ -42,7 +42,7 @@ If you create project and [install and set up firebase cli](https://firebase.goo
 yarn deploy
 ```
 
-## references
+## References
 I use these example project as references. 
 Thanks!
 
