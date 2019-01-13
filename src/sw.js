@@ -1,6 +1,7 @@
-// pwa プラグインが自動で挿入するようだ
+// pwa プラグインが自動で挿入するようなので、以下は書かなくてよい。
 // importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
+// キャッシュに使う名前を設定
 // https://developers.google.com/web/tools/workbox/guides/configure-workbox#configure_cache_names
 workbox.core.setCacheNameDetails({ prefix: "vue-cli-ssr-example" });
 

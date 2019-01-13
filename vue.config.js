@@ -59,6 +59,8 @@ module.exports = {
     }
   }),
   chainWebpack: config => {
+    // SSRする際に自動でこれらが挿入されるため、
+    // webpackでのコンパイル時には挿入しないようにする
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
     config.plugin('html').tap(options => {
@@ -69,14 +71,6 @@ module.exports = {
       return options;
     })
   },
-  // publicフォルダーをdistにコピーするwebpackの設定の ignore オプションを上書きし、LP.html をコピーしないようにしている。
-  // https://github.com/vuejs/vue-cli/issues/2231
-  // chainWebpack: config => {
-  //   config.plugin('copy').tap(([options]) => {
-  //     options[0].ignore.push('LP.html');
-  //     return [options];
-  //   });
-  // },
   pwa: {
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
