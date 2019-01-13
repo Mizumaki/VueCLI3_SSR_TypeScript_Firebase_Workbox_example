@@ -65,8 +65,12 @@ module.exports = {
     config.plugins.delete('prefetch')
     config.plugin('html').tap(options => {
       if (process.env.NODE_ENV === 'production') {
+        // コメントが消えてしまうのを防ぐ
+        // https://qiita.com/Statham/items/227f3006212eba8e4512#原因---ビルドの際にhtmlファイルをminifyしていたためコメントが消えていた
         options[0].minify.removeComments = false;
       }
+      // SSRする際に自動でこれらが挿入されるため、
+      // webpackでのコンパイル時には挿入しないようにする
       options[0].excludeAssets = [/.js/, /.css/];
       return options;
     })
