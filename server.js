@@ -3,26 +3,43 @@ const path = require('path');
 const express = require('express');
 const compression = require('compression')
 const { createBundleRenderer } = require('vue-server-renderer');
-const proxy = require('http-proxy-middleware');
 
-const devServerBaseURL = process.env.DEV_SERVER_BASE_URL || 'http://localhost'
-const devServerPort = process.env.DEV_SERVER_PORT || 8081
-const devServerUrl = devServerBaseURL + ":" + devServerPort;
+// const proxy = require('http-proxy-middleware');
+// const devServerBaseURL = process.env.DEV_SERVER_BASE_URL || 'http://localhost'
+// const devServerPort = process.env.DEV_SERVER_PORT || 8081
+// const devServerUrl = devServerBaseURL + ":" + devServerPort;
+// const isProd = process.env.NODE_ENV === 'production';
 
 const app = express();
 const resolve = file => path.resolve(__dirname, file);
 const serve = (filePath) => express.static(resolve(filePath));
-const isProd = process.env.NODE_ENV === 'production';
 
 let templatePath;
 let clientManifest;
 let serverBundle;
+let renderer;
+const createRenderer = (bundle, options) => {
+  console.log("");
+  console.log("in createRenderer");
+  console.log("");
+  return createBundleRenderer(bundle, Object.assign(options, {
+    //
+    // other component caching is here
+    //
+    runInNewContext: false, // https://ssr.vuejs.org/ja/api/#runinnewcontext
+  }))
+}
 
+/*
 if (isProd) {
+*/
   templatePath = resolve('./functions/dist/app/index.html');
 
   serverBundle = require('./functions/dist/app/vue-ssr-server-bundle.json');
   clientManifest = require('./functions/dist/app/vue-ssr-client-manifest.json');
+  const template = fs.readFileSync(templatePath, 'utf-8');
+
+  renderer = createRenderer(serverBundle, { template, clientManifest });
 
   /*
   const serve = (path, cache) => express.static(resolve(path), {
@@ -41,51 +58,27 @@ if (isProd) {
   app.use('/manifest.json', serve('./functions/dist/app/manifest.json'));
   app.use('/sw.js', serve('./functions/dist/app/sw.js'));
 
+  /*
 } else {
   templatePath = resolve('./public/index.html');
 
-  serverBundle = require('./functions/dist/app/vue-ssr-server-bundle.json');
-  clientManifest = require('./functions/dist/app/vue-ssr-client-manifest.json');
+  // In development: setup the dev server with watch and hot-reload,
+  // and create a new renderer on bundle / index template update.
+  readyPromise = require('./dev/setup-dev-server')(
+    app,
+    templatePath,
+    (bundle, options) => {
+      renderer = createRenderer(bundle, options)
+    }
+  )
 
-  app.use('/favicon.ico', proxy({
-    target: devServerUrl,
-    changeOrigin: true,
-  }));
-  
-  app.use('/img', proxy({
-    target: devServerUrl,
-    changeOrigin: true,
-  }));
-  app.use('/js', proxy({
-    target: devServerUrl,
-    changeOrigin: true,
-  }));
-  app.use('/css', proxy({
-    target: devServerUrl,
-    changeOrigin: true,
-  }));
-  
-  app.use('/manifest.json', proxy({
-    target: devServerUrl,
-    changeOrigin: true,
-  }));
+  app.use('/favicon.ico', serve('./public/favicon.ico'));
+  app.use('/dist', serve('./dist', true))
+  app.use('/public', serve('./public', true))
+  app.use('/manifest.json', serve('./public/manifest.json', true))
 }
 
-const template = fs.readFileSync(templatePath, 'utf-8');
-
-const createRenderer = (bundle, options) => {
-  console.log("");
-  console.log("in createRenderer");
-  console.log("");
-  return createBundleRenderer(bundle, Object.assign(options, {
-    //
-    // other component caching is here
-    //
-    runInNewContext: false, // https://ssr.vuejs.org/ja/api/#runinnewcontext
-  }))
-}
-
-const renderer = createRenderer(serverBundle, { template, clientManifest });
+*/
 
 const render = (req, res) => {
   console.log("");
