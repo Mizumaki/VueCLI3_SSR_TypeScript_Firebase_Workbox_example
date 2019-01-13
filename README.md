@@ -1,3 +1,34 @@
+# SSR SPA sample using Vue.js with TypeScript and Firebase Hosting & Cloud Functions
+This is a sample App built by Vue CLI3. You can run this app on both localhost and Web.
+
+If you want to run this app in the real world, use Firebase. All settings is included in this sample.
+
+## Usage
+Install dependencies in root directory and functions directory:
+
+```
+// in root directory
+yarn
+
+// in funcitons directory
+yarn
+```
+
+Build app:
+
+```
+yarn build
+```
+
+Run app in localhost:
+
+```
+yarn serve:pro
+
+// now, app is served in http://localhost:8080
+```
+
+
 
 
 # firebase settings
