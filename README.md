@@ -41,3 +41,11 @@ If you create project and [install and set up firebase cli](https://firebase.goo
 ```
 yarn deploy
 ```
+
+## references
+I use these example project as references. 
+Thanks!
+
+- [vue ssr guide](https://ssr.vuejs.org)
+- [vue-cli-ssr-example](https://github.com/eddyerburgh/vue-cli-ssr-example)
+- [vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)
