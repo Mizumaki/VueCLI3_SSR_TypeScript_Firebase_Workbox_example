@@ -7,7 +7,6 @@
     "hostingDist": "functions/dist/app"
   },
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": " npm run build:client -- --silent && npm run build:server -- --no-clean --silent && npm run build:functions",
     "build:client": "cross-env WEBPACK_TARGET=client vue-cli-service build --dest $npm_package_config_hostingDist",
     "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build --dest $npm_package_config_hostingDist",
